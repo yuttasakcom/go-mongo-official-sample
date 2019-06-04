@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:4.0.10
+    container_name: mongo
+    volumes:
+      - mongo_db:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    command: mongod --auth
+    ports:
+      - '27017:27017'
+    restart: always
+
+volumes:
+  mongo_db:
