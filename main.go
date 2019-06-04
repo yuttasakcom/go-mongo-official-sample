@@ -45,12 +45,16 @@ func main() {
 	collection := client.Database("golang").Collection("users")
 	ctx, cancelFindOne := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancelFindOne()
+
 	filter := bson.M{"name": "pi"}
 	singleResult := collection.FindOne(ctx, filter)
 
+	raw, err := singleResult.DecodeBytes()
 	if err != nil {
-		log.Fatal("main : findOne : ", err)
+		log.Fatal("main : finOne : ", err)
 	}
+
+	fmt.Println(raw)
 
 	result := Users{}
 	singleResult.Decode(&result)
