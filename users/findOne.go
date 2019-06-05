@@ -13,25 +13,23 @@ import (
 )
 
 // FindOne user
-func FindOne(b bson.M) (string, error) {
+func FindOne(b bson.M) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	db, err := database.Connect(ctx)
 	if err != nil {
-		return "", fmt.Errorf("users: FindOne(): %v", err)
+		return nil, fmt.Errorf("users: FindOne(): database.Connect fail: %v", err)
 	}
 
-	collection := db.Database(os.Getenv("MONGO_DB")).Collection(os.Getenv("COLLECTION_USERS"))
-	singleResult := collection.FindOne(ctx, b)
-
 	result := models.Users{}
-	singleResult.Decode(&result)
+	collection := db.Database(os.Getenv("MONGO_DB")).Collection(os.Getenv("COLLECTION_USERS"))
+	collection.FindOne(ctx, b).Decode(&result)
 
 	resultByte, err := json.Marshal(result)
 	if err != nil {
-		return "", fmt.Errorf("users: FindOne(): unabled to marshal json: %v", err)
+		return nil, fmt.Errorf("users: FindOne(): unabled to marshal json: %v", err)
 	}
 
-	return string(resultByte), nil
+	return resultByte, nil
 }
