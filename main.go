@@ -17,7 +17,7 @@ func init() {
 }
 
 func main() {
-	filter := bson.M{"name": "pis"}
+	filter := bson.M{"name": "pi"}
 	user, err := users.FindOne(filter)
 	if err != nil {
 		log.Fatalf("main: users.FindOne fail: %v", err)
