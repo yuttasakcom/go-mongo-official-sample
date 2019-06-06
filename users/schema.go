@@ -1,8 +1,8 @@
-package models
+package users
 
 import "go.mongodb.org/mongo-driver/bson/primitive"
 
-// Users model
+// Users schema
 type Users struct {
 	ID     primitive.ObjectID `json:"_id" bson:"_id"`
 	Name   string             `json:"name"`

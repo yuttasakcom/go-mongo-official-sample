@@ -17,8 +17,6 @@ require (
 	golang.org/x/text v0.3.2 // indirect
 )
 
-replace github.com/yuttasakcom/go-mongo-official-sample/models => ./models
-
 replace github.com/yuttasakcom/go-mongo-official-sample/database => ./database
 
 replace github.com/yuttasakcom/go-mongo-official-sample/users => ./users

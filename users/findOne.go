@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/yuttasakcom/go-mongo-official-sample/database"
-	"github.com/yuttasakcom/go-mongo-official-sample/models"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -22,7 +21,7 @@ func FindOne(b bson.M) ([]byte, error) {
 		return nil, fmt.Errorf("users: FindOne(): database.Connect fail: %v", err)
 	}
 
-	result := models.Users{}
+	result := Users{}
 	collection := db.Database(os.Getenv("MONGO_DB")).Collection(os.Getenv("COLLECTION_USERS"))
 	collection.FindOne(ctx, b).Decode(&result)
 
