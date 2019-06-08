@@ -12,7 +12,7 @@ import (
 )
 
 // FindOne user
-func FindOne(b bson.M) ([]byte, error) {
+func FindOne(filter bson.M) ([]byte, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -23,7 +23,14 @@ func FindOne(b bson.M) ([]byte, error) {
 
 	result := Users{}
 	collection := db.Database(os.Getenv("MONGO_DB")).Collection(os.Getenv("COLLECTION_USERS"))
-	collection.FindOne(ctx, b).Decode(&result)
+
+	query := collection.FindOne(ctx, filter)
+
+	if raw, _ := query.DecodeBytes(); len(raw) == 0 {
+		return []byte("404 Not Found"), nil
+	}
+
+	query.Decode(&result)
 
 	resultByte, err := json.Marshal(result)
 	if err != nil {
